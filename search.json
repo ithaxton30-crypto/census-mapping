@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Sarasota Rent Map",
+    "title": "Sarasota Rent Heatmap",
     "section": "",
-    "text": "Explore the 2024 ACS rent estimate for Sarasota, Florida. Select the marker for the median gross rent and its margin of error.\n\n\n\n\n\n\nThe marker shows a citywide estimate, not rent differences between neighborhoods. The Census data in this download does not include locations within Sarasota."
+    "text": "Each city area is shaded by its estimated median monthly gross rent."
   },
   {
     "objectID": "about.html",
