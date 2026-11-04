@@ -1,7 +1,47 @@
 ---
-title: "Census Maps"
+title: "Sarasota Rent Map"
 ---
 
-This is a Quarto website.
+Explore the 2024 ACS rent estimate for Sarasota, Florida. Select the marker
+for the median gross rent and its margin of error.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+```{r}
+#| echo: false
+#| warning: false
+
+library(dplyr)
+library(leaflet)
+library(readr)
+
+rent_data <- read_csv("sarasota_rent_2024.csv", show_col_types = FALSE)
+median_rent <- rent_data |>
+  filter(variable == "B25064_001") |>
+  slice(1)
+
+leaflet() |>
+  addProviderTiles(providers$CartoDB.Positron) |>
+  setView(lng = -82.5307, lat = 27.3364, zoom = 12) |>
+  addCircleMarkers(
+    lng = -82.5307,
+    lat = 27.3364,
+    radius = 12,
+    color = "#ffffff",
+    weight = 3,
+    fillColor = "#d9485f",
+    fillOpacity = 0.9,
+    label = "Sarasota, Florida",
+    popup = paste0(
+      "<strong>Sarasota, Florida</strong><br>",
+      "Median gross rent: $",
+      format(median_rent$estimate, big.mark = ","),
+      " per month<br>",
+      "Margin of error: ±$",
+      format(median_rent$moe, big.mark = ","),
+      "<br><small>2020–2024 ACS 5-year estimate</small>"
+    )
+  )
+```
+
+The marker shows a citywide estimate, not rent differences between
+neighborhoods. The Census data in this download does not include locations
+within Sarasota.
