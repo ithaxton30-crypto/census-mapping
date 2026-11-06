@@ -1,30 +1,60 @@
 library(tidycensus)
+library(tigris)
+library(sf)
 library(dplyr)
-library(readr)
 
+options(tigris_use_cache = TRUE)
 year <- 2024
 
-# B25063 contains gross-rent ranges; B25064 contains median gross rent.
-rent_variables <- load_variables(year, "acs5") |>
-  filter(
-    grepl("^B25063_[0-9]{3}$", name) |
-      name == "B25064_001"
-  ) |>
-  select(name, label)
+race_vars <- c(
+  "White" = "B03002_003",
+  "Black" = "B03002_004",
+  "Hispanic" = "B03002_012",
+  "Asian" = "B03002_006"
+)
 
-rent_data <- get_acs(
-  geography = "place",
+# 1. Duval County, FL (by census tract)
+duval_tracts <- get_acs(
+  geography = "tract",
+  state = "FL",
+  county = "Duval",
+  year = year,
+  survey = "acs5",
+  variables = race_vars,
+  summary_var = "B03002_001",
+  geometry = TRUE
+) |>
+  mutate(
+    area = "Duval County, FL",
+    percent = 100 * estimate / summary_est
+  )
+
+# 2. Jacksonville city, FL (tracts within Jacksonville city limits)
+jax_boundary <- places(state = "FL", cb = TRUE, year = year) |>
+  filter(NAME == "Jacksonville") |>
+  st_transform(st_crs(duval_tracts))
+
+jax_tracts <- st_intersection(duval_tracts, st_geometry(jax_boundary)) |>
+  mutate(area = "Jacksonville, FL")
+
+# 3. State of Florida (by county)
+fl_counties <- get_acs(
+  geography = "county",
   state = "FL",
   year = year,
-  variables = rent_variables$name,
-  geometry = FALSE
+  survey = "acs5",
+  variables = race_vars,
+  summary_var = "B03002_001",
+  geometry = TRUE
 ) |>
-  filter(NAME == "Sarasota city, Florida") |>
-  left_join(rent_variables, by = c("variable" = "name")) |>
-  select(NAME, variable, label, estimate, moe)
+  mutate(
+    area = "Florida",
+    percent = 100 * estimate / summary_est
+  )
 
-if (nrow(rent_data) == 0) {
-  stop("No ACS rent data found for Sarasota city, Florida.")
-}
+saveRDS(
+  list(duval = duval_tracts, jacksonville = jax_tracts, florida = fl_counties),
+  "race_ethnicity_maps_2024.rds"
+)
 
-write_csv(rent_data, "sarasota_rent_2024.csv")
+

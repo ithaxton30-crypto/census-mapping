@@ -1,0 +1,19 @@
+area,NAME,variable,estimate,moe,summary_est,percent
+"Duval County, FL","Duval County, Florida",White,495145,2094,1023153,48.394032954993044
+"Duval County, FL","Duval County, Florida",Black,288306,2751,1023153,28.178190358626715
+"Duval County, FL","Duval County, Florida",Other,819,190,1023153,0.08004667923565684
+"Duval County, FL","Duval County, Florida",Asian,50010,1434,1023153,4.887832025122343
+"Duval County, FL","Duval County, Florida",Two or more races,53528,3378,1023153,5.231671118591256
+"Duval County, FL","Duval County, Florida",Hispanic,126467,NA,1023153,12.36051695103274
+"Jacksonville, FL","Jacksonville city, Florida",White,457529,2246,977670,46.79789704092383
+"Jacksonville, FL","Jacksonville city, Florida",Black,286358,2763,977670,29.289842175785285
+"Jacksonville, FL","Jacksonville city, Florida",Other,790,179,977670,0.08080436138983502
+"Jacksonville, FL","Jacksonville city, Florida",Asian,49293,1401,977670,5.041885298720427
+"Jacksonville, FL","Jacksonville city, Florida",Two or more races,51884,3350,977670,5.306903147278734
+"Jacksonville, FL","Jacksonville city, Florida",Hispanic,123412,626,977670,12.62307322511686
+United States,United States,White,192214378,30948,334922499,57.39070339374244
+United States,United States,Black,39896127,46712,334922499,11.912047449520553
+United States,United States,Other,1698432,9057,334922499,0.5071119453220131
+United States,United States,Asian,19678814,22770,334922499,5.875632141392806
+United States,United States,Two or more races,14240018,64004,334922499,4.2517352648798905
+United States,United States,Hispanic,64759370,1547,334922499,19.335628449374493
